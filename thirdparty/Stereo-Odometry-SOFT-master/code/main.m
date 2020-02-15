@@ -1,10 +1,10 @@
-clc
-clear
-close all
+clc;clear;close all;
 
 %% Execute the configuration file to read parameters for data paths
-addpath('config');
 addpath(genpath('functions'));
+
+addpath(genpath('src'));
+
 configFile;
 
 %% Starting parallel pooling (requires Parallel Processing Toolbox)
@@ -15,20 +15,20 @@ if (isempty(gcp) && data_params.use_multithreads)
 end
 
 %% Read directories containing images
-img_files1 = dir(strcat(data_params.path1,'*.png'));
-img_files2 = dir(strcat(data_params.path2,'*.png'));
+img_files1 = dir(fullfile(data_params.path1,'*.png'));
+img_files2 = dir(fullfile(data_params.path2,'*.png'));
 num_of_images = length(img_files1);
 
 %% Read camera parameters
-[P1, P2] = createCamProjectionMatrices(cam_params);
+[P1, P2] = readCamProjectionMatrices(data_params);
 
 %% Read ground truth file if flag is true
 if data_params.show_gt_flag
-  ground_truth = load(data_params.gt_file);
-  gt_x_max = max(ground_truth(:, end - 8));
-  gt_x_min = min(ground_truth(:, end - 8));
-  gt_z_max = max(ground_truth(:, end));
-  gt_z_min = min(ground_truth(:, end));
+    ground_truth = read_oxts(data_params.gt_path);
+    gt_x_max = max(ground_truth(:, end - 8));
+    gt_x_min = min(ground_truth(:, end - 8));
+    gt_z_max = max(ground_truth(:, end));
+    gt_z_min = min(ground_truth(:, end));
 end
 
 %% Initialize variables for odometry
