@@ -26,8 +26,8 @@ time = zeros(4, 1);      % variable to store time taken by each step
 %% Feature points extraction
 tic;
 % compute new features for current frames
-pts2_l = computeFeatures(I2_l, vo_params.feature);
-pts2_r = computeFeatures(I2_r, vo_params.feature);
+pts2_l = computeORBFeatures(I2_l, vo_params.feature);
+pts2_r = computeORBFeatures(I2_r, vo_params.feature);
 % retrieve extracted features from time t-1
 pts1_l = vo_previous.pts1_l;
 pts1_r = vo_previous.pts1_r;
@@ -40,11 +40,11 @@ time(2) = toc;
 
 %% Feature Selection using bucketing
 tic;
-bucketed_matches = bucketFeatures(matches, vo_params.bucketing);
+% bucketed_matches = bucketFeatures(matches, vo_params.bucketing);
 time(3) = toc;
 
 %% Rotation (R) and Translation(tr) Estimation by minimizing Reprojection Error
-[R, tr] = updateMotionP3P(bucketed_matches, P1, P2, dims);
+[R, tr] = updateMotionP3P(matches, P1, P2, dims);
 
 %% plotting
 

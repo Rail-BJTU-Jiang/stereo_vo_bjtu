@@ -10,9 +10,9 @@ configFile;
 %% Starting parallel pooling (requires Parallel Processing Toolbox)
 % This section takes a while to load for the first time
 % To shutdown, run: delete(gcp('nocreate'));
-if (isempty(gcp) && data_params.use_multithreads)
-    parpool();
-end
+% if (isempty(gcp) && data_params.use_multithreads)
+%     parpool();
+% end
 
 %% Read directories containing images
 img_files1 = dir(fullfile(data_params.path1,'*.png'));
@@ -45,8 +45,8 @@ for t = 1 : num_of_images
 
     %% Bootstraping for initialization
     if (start == 0)
-        vo_previous.pts1_l = computeFeatures(I2_l, vo_params.feature);
-        vo_previous.pts1_r = computeFeatures(I2_r, vo_params.feature);
+        vo_previous.pts1_l = computeORBFeatures(I2_l, vo_params.feature);
+        vo_previous.pts1_r = computeORBFeatures(I2_r, vo_params.feature);
         start = 1;
         I1_l = I2_l;
         I1_r = I2_r;
@@ -54,7 +54,11 @@ for t = 1 : num_of_images
         continue;
     end
 
+    matches = stereo_match(vo_previous.pts1_l, vo_previous.pts1_r, size(I2_l,2), size(I2_l,1));
+    
     %% Implement SOFT for time instant t+1
+%     [R, tr, vo_previous] = visualSOFT(t, I1_l, I2_l, I1_r, I2_r, P1, P2, vo_params, vo_previous);
+    
     [R, tr, vo_previous] = visualSOFT(t, I1_l, I2_l, I1_r, I2_r, P1, P2, vo_params, vo_previous);
 
     %% Estimated pose relative to global frame at t = 0
