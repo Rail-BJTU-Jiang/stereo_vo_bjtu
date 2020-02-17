@@ -1,4 +1,4 @@
-function [min_ind, validity] = findMatch(keypt1, keypts2, bin_pos2, x_bin_num, y_bin_num, ...
+function [min_ind, validity] = findMatch(keypt1, desc1, keypts2, desc2, bin_pos2, x_bin_num, y_bin_num, ...
                              match_params, flow)
 %FINDMATCHSAD Given a keypoint in image 1, use sparse SAD to find a matching
 % feature in image 2 within a (M ¡Á M) search window
@@ -25,9 +25,9 @@ match_radius = match_params.match_radius;
 match_disp_tolerance = match_params.match_disp_tolerance;
 
 % extract information of feature being considered
-pt1 = keypt1.location;
+pt1 = keypt1;
 x1 = pt1(1); y1 = pt1(2);
-descr1 = keypt1.descriptor;
+descr1 = desc1;
 
 % use full search space
 x_min = x1 - match_radius;
@@ -58,7 +58,7 @@ if (isempty(in2))
 end
 
 % check if candidate are within matching radius
-location2_all = vertcat(keypts2(in2).location)';
+location2_all = keypts2(in2,:)';
 valid_in2_indices = find(location2_all(1, :) >= x_min & location2_all(1, :) <= x_max & ...
                  location2_all(2, :) >= y_min & location2_all(2, :) <= y_max);
 
@@ -72,10 +72,12 @@ end
 % extract descriptors
 valid_in2 = in2(valid_in2_indices);
 
-descr2_all = zeros(length(valid_in2), length(descr1)*8, 'uint8');
-for i = 1:length(valid_in2)
-   descr2_all(i,:) = vec(de2bi(keypts2(valid_in2(i)).descriptor)')';
-end
+% descr2_all = zeros(length(valid_in2), length(descr1)*8, 'uint8');
+descr2_all=reshape(de2bi(desc2(valid_in2,:)')',size(desc2,2)*8,[])';
+
+% for i = 1:length(valid_in2)
+%    descr2_all(i,:) = vec(de2bi(desc2(valid_in2(i),:))')';
+% end
 % descr2_all = vertcat(keypts2(valid_in2).descriptor);
 
 % compute SAD score between input keypoint in image 1 and all valid

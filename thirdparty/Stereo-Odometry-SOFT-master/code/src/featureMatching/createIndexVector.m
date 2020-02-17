@@ -11,7 +11,7 @@ function bin_pos = createIndexVector(keypts, match_binsize, x_bin_num, y_bin_num
 %   - bin_pos(x_bin_num, y_bin_num, 4): cell containing indices of keypoint
 
 % allocate memory
-num = size(keypts, 2);
+num = length(keypts.location);
 
 % create a array for bin positions/class
 bin_pos = cell(x_bin_num, y_bin_num);
@@ -19,8 +19,8 @@ bin_pos = cell(x_bin_num, y_bin_num);
 % iterate over all keypoints
 for i = 1:num
     % coordinate of keypoint
-    x = keypts(i).location(1);
-    y = keypts(i).location(2);
+    y = keypts.location(i,1);
+    x = keypts.location(i,2);
     % find bin position
     bin_x = min(ceil(x/match_binsize), x_bin_num);
     bin_y = min(ceil(y/match_binsize), y_bin_num);
