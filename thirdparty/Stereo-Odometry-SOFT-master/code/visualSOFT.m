@@ -33,6 +33,22 @@ pts1_l = vo_previous.pts1_l;
 pts1_r = vo_previous.pts1_r;
 time(1) = toc;
 
+% tic
+matches = frame_match(pts1_l, pts2_l, size(I2_l,2), size(I2_l,1));
+% toc
+% tic
+% matches = frame_match2(pts1_l, pts2_l,size(I2_l),vo_params.matcher);
+% toc
+%% debug plot
+im = cat(1,I2_l,I1_l);
+imshow(im)
+hold on;
+pt1 = cat(2,pts1_l.location);
+pt2 = cat(2,pts2_l.location);
+plot(pt2(matches(:,2),1),pt2(matches(:,2),2),'r.')
+plot(pt1(matches(:,1),1),pt1(matches(:,1),2)+size(I1_l,1),'g.')
+plot([pt1(matches(:,1),1)';pt2(matches(:,2),1)'],[pt1(matches(:,1),2)'+size(I1_l,1);pt2(matches(:,2),2)'],'b-')
+
 %% Circular feature matching
 tic;
 matches = matchFeaturePoints(I1_l, I1_r, I2_l, I2_r, pts1_l, pts2_l, pts1_r, pts2_r, dims, vo_params.matcher);

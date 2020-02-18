@@ -55,21 +55,21 @@ for t = 1 : num_of_images
     end
 
     %% compare this function with the one using bins. see which one is faster.
-    tic
-    matches = stereo_match(vo_previous.pts1_l, vo_previous.pts1_r, size(I2_l,2), size(I2_l,1));
-    toc
-    tic
-    matches = stereo_match2(vo_previous.pts1_l, vo_previous.pts1_r,size(I2_l),vo_params.matcher);
-    toc
-    %% debug plot
-    im = cat(2,I1_l,I1_r);
-    imshow(im)
-    hold on;
-    pt1 = cat(2,vo_previous.pts1_l.location);
-    pt2 = cat(2,vo_previous.pts1_r.location);
-    plot(pt1(matches(:,1),1),pt1(matches(:,1),2),'r.')
-    plot(pt2(matches(:,2),1)+size(I1_l,2),pt2(matches(:,2),2),'g.')
-    plot([pt1(matches(:,1),1)';pt2(matches(:,2),1)'+size(I1_l,2)],[pt1(matches(:,1),2)';pt2(matches(:,2),2)'],'b-')
+%     tic
+%     matches = stereo_match(vo_previous.pts1_l, vo_previous.pts1_r, size(I2_l,2), size(I2_l,1));
+%     toc
+% %     tic
+% %     matches = stereo_match2(vo_previous.pts1_l, vo_previous.pts1_r,size(I2_l),vo_params.matcher);
+% %     toc
+%     %% debug plot
+%     im = cat(2,I1_l,I1_r);
+%     imshow(im)
+%     hold on;
+%     pt1 = cat(2,vo_previous.pts1_l.location);
+%     pt2 = cat(2,vo_previous.pts1_r.location);
+%     plot(pt1(matches(:,1),1),pt1(matches(:,1),2),'r.')
+%     plot(pt2(matches(:,2),1)+size(I1_l,2),pt2(matches(:,2),2),'g.')
+%     plot([pt1(matches(:,1),1)';pt2(matches(:,2),1)'+size(I1_l,2)],[pt1(matches(:,1),2)';pt2(matches(:,2),2)'],'b-')
     
     
     %% Implement SOFT for time instant t+1
