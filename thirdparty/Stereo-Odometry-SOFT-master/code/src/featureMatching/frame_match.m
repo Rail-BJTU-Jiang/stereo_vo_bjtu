@@ -17,7 +17,7 @@ function matches = frame_match(keypoints1, keypoints2, w, h, remove_nan, is_orb)
 %     ind2 = pts2(:,1)+pts2(:,2)*w;
     
     max_disparity = 50;
-    radius = 50;
+    radius = 60;
     
     matches = NaN(size(pts1,1),2);
         
@@ -46,7 +46,12 @@ function matches = frame_match(keypoints1, keypoints2, w, h, remove_nan, is_orb)
             else
                 validdesc2 = desc2(validind,:);
                 % matching
-                dists = pdist2(double(desc1(i,:)), double(validdesc2), 'euclidean');
+%                 tic
+                dists = vecnorm((double(repmat(desc1(i,:),length(validind),1))-double(validdesc2))');
+%                 toc
+%                 tic
+%                 dists2 = pdist2(double(desc1(i,:)), double(validdesc2), 'euclidean');
+%                 toc
             end
             % find keypoint in image2 associated with minimum cost
             [~,minid] = min(dists);

@@ -41,7 +41,7 @@ function matches = stereo_match(keypoints1, keypoints2, w, h, remove_nan, is_orb
             else
                 validdesc2 = desc2(validind,:);
                 % matching
-                dists = pdist2(double(desc1(i,:)), double(validdesc2), 'euclidean');
+                dists = vecnorm((double(repmat(desc1(i,:),length(validind),1))-double(validdesc2))');
             end
             % find keypoint in image2 associated with minimum cost
             [~,minid] = min(dists);

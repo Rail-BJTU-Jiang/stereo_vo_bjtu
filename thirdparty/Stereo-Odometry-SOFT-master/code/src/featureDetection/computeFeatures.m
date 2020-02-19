@@ -23,6 +23,10 @@ I_f1 = blob5x5(I);
 I_f2 = checkerboard5x5(I);
 
 % extract keypoints via non-maximum suppression
-keypts = nonMaximumSuppression_fast(I_f1, I_f2, nms_n, nms_tau, margin);
+keypts = nonMaximumSuppression_fast(I_f1, I_f2, nms_n, nms_tau, margin, feature_params.se);
+
+keypts = bucketingFeatures(keypts, feature_params);
+
 keypts_with_descriptors = computeDescriptors_fast(I_dx, I_dy, keypts);
 end
+

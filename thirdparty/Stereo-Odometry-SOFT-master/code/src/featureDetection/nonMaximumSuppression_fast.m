@@ -1,4 +1,4 @@
-function [keypoints, num] = nonMaximumSuppression_fast(I_f1, I_f2, nms_n, nms_tau, margin)
+function [keypoints, num] = nonMaximumSuppression_fast(I_f1, I_f2, nms_n, nms_tau, margin, se)
 %NONMAXIMUMSUPPRESION Extracting corner and blob feature points 
 % Non-maximum- and non-minimum-suppression are employed over the
 % filtered images, resulting in feature candidates which belong
@@ -29,8 +29,8 @@ num = 0;
 % create a structure to store keypoints
 keypoints = struct('location', {}, 'value', {}, 'class', {});
 
-[r1,c1] = nonmaxsuppts(abs(I_f1), 'radius', nms_n, 'thresh', nms_tau, 'margin', margin);
-[r2,c2] = nonmaxsuppts(abs(I_f2), 'radius', nms_n, 'thresh', nms_tau, 'margin', margin);
+[r1,c1] = nonmaxsuppts(abs(I_f1), se, 'radius', nms_n, 'thresh', nms_tau, 'margin', margin);
+[r2,c2] = nonmaxsuppts(abs(I_f2), se, 'radius', nms_n, 'thresh', nms_tau, 'margin', margin);
 
 ind1 = I_f1((c1-1).*height+r1)<0;
 ind2 = I_f2((c2-1).*height+r2)<0;
@@ -121,7 +121,7 @@ end
 %                 Arguments changed to be specified as keyword - value
 %                 pairs. (no doubt this breaks some code, sorry)
 
-function [r,c] = nonmaxsuppts(cim, varargin)
+function [r,c] = nonmaxsuppts(cim, se, varargin)
     
     [thresh, radius, N, subpixel, im, margin] = checkargs(varargin);    
     [rows,cols] = size(cim);
@@ -130,7 +130,7 @@ function [r,c] = nonmaxsuppts(cim, varargin)
     % dilation and then finding points in the corner strength image that
     % match the dilated image and are also greater than the threshold.
     sze = 2*radius+1;                    % Size of dilation mask.
-    mx = imdilate(cim, strel('disk',radius));
+    mx = imdilate(cim, se);
 %    mx = ordfilt2(cim, sze^2,ones(sze)); % Grey-scale dilate.
 
     % Make mask to exclude points within radius of the image boundary. 
