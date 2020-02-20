@@ -22,6 +22,7 @@ num_of_images = length(img_files1);
 %% Read camera parameters
 [P1, P2] = readCamProjectionMatrices(data_params);
 
+
 %% Read ground truth file if flag is true
 if data_params.show_gt_flag
     ground_truth = read_oxts(data_params.gt_path);
@@ -37,7 +38,7 @@ Rpos = eye(3);
 
 %% Start Algorithm
 start = 0;
-for t = 1 : num_of_images
+for t = 1 : num_of_images-1
     %% Read images for time instant t
     I2_l = imread([img_files1(t+1).folder, '/', img_files1(t).name]);
     I2_r = imread([img_files2(t+1).folder, '/', img_files2(t).name]);
@@ -45,8 +46,9 @@ for t = 1 : num_of_images
 
     %% Bootstraping for initialization
     if (start == 0)
-        vo_previous.pts1_l = computeORBFeatures(I2_l, vo_params.feature);
-        vo_previous.pts1_r = computeORBFeatures(I2_r, vo_params.feature);
+        vo_previous.pts1_l = computeFeatures(I2_l, vo_params.feature);
+        vo_previous.pts1_r = computeFeatures(I2_r, vo_params.feature);
+        vo_previous.stereo_matches = [];
         start = 1;
         I1_l = I2_l;
         I1_r = I2_r;
@@ -89,25 +91,38 @@ for t = 1 : num_of_images
     subplot(2, 2, [2, 4]);
 
     % Read ground truth pose if flag is true
-    if data_params.show_gt_flag
-      axis([gt_x_min gt_x_max gt_z_min gt_z_max])
-      T = reshape(ground_truth(t, :), 4, 3)';
-      pos_gt = T(:, 4);
-      scatter(pos_gt(1), pos_gt(3), 'r', 'filled');
-      hold on;
-    end
-    scatter( - pos(1), pos(3), 'b', 'filled');
-    title(sprintf('Odometry plot at frame %d', t))
-    xlabel('x-axis (in meters)');
-    ylabel('z-axis (in meters)');
+    if t == 2    
+        if data_params.show_gt_flag
+          axis([gt_x_min-50 gt_x_max+50 gt_z_min-50 gt_z_max+50])
+          T = reshape(ground_truth(t, :), 4, 3)';
+          pos_gt = T(:, 4);
+          l1 = plot(pos_gt(1), pos_gt(3), 'r--','LineWidth',2);
+          hold on;
+        end
+        l2 = plot( - pos(1), pos(3), 'b-.','LineWidth',2);
+        title(sprintf('Odometry plot at frame %d', t))
+        xlabel('x-axis (in meters)');
+        ylabel('z-axis (in meters)');
 
-    if data_params.show_gt_flag
-        legend('Ground Truth Pose', 'Estimated Pose')
+        if data_params.show_gt_flag
+            legend('Ground Truth Pose', 'Estimated Pose')
+        else
+            legend('Estimated Pose')
+        end
     else
-        legend('Estimated Pose')
+        axis([gt_x_min-50 gt_x_max+50 gt_z_min-50 gt_z_max+50])
+        if data_params.show_gt_flag
+          T = reshape(ground_truth(t, :), 4, 3)';
+          pos_gt = T(:, 4);
+          l1.XData(end+1) = pos_gt(1);
+          l1.YData(end+1) = pos_gt(3);
+        end
+        l2.XData(end+1) = -pos(1);
+        l2.YData(end+1) = pos(3);        
     end
 
     %% Pause to visualize the plot
-    pause(0.0001);
-    fprintf('\n---------------------------------\n');
+%     pause(0.0001);
+%     fprintf('\n---------------------------------\n');
+    drawnow;
 end

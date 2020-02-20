@@ -26,41 +26,42 @@ time = zeros(4, 1);      % variable to store time taken by each step
 %% Feature points extraction
 tic;
 % compute new features for current frames
-pts2_l = computeORBFeatures(I2_l, vo_params.feature);
-pts2_r = computeORBFeatures(I2_r, vo_params.feature);
+pts2_l = computeFeatures(I2_l, vo_params.feature);
+pts2_r = computeFeatures(I2_r, vo_params.feature);
 % retrieve extracted features from time t-1
 pts1_l = vo_previous.pts1_l;
 pts1_r = vo_previous.pts1_r;
 time(1) = toc;
 
 % tic
-matches = frame_match(pts1_l, pts2_l, size(I2_l,2), size(I2_l,1));
+% matches = frame_match(pts1_l, pts2_l, size(I2_l,2), size(I2_l,1));
 % toc
 % tic
 % matches = frame_match2(pts1_l, pts2_l,size(I2_l),vo_params.matcher);
 % toc
 %% debug plot
-im = cat(1,I2_l,I1_l);
-imshow(im)
-hold on;
-pt1 = cat(2,pts1_l.location);
-pt2 = cat(2,pts2_l.location);
-plot(pt2(matches(:,2),1),pt2(matches(:,2),2),'r.')
-plot(pt1(matches(:,1),1),pt1(matches(:,1),2)+size(I1_l,1),'g.')
-plot([pt1(matches(:,1),1)';pt2(matches(:,2),1)'],[pt1(matches(:,1),2)'+size(I1_l,1);pt2(matches(:,2),2)'],'b-')
+% im = cat(1,I2_l,I1_l);
+% imshow(im)
+% hold on;
+% pt1 = cat(2,pts1_l.location);
+% pt2 = cat(2,pts2_l.location);
+% plot(pt2(matches(:,2),1),pt2(matches(:,2),2),'r.')
+% plot(pt1(matches(:,1),1),pt1(matches(:,1),2)+size(I1_l,1),'g.')
+% plot([pt1(matches(:,1),1)';pt2(matches(:,2),1)'],[pt1(matches(:,1),2)'+size(I1_l,1);pt2(matches(:,2),2)'],'b-')
 
 %% Circular feature matching
 tic;
-matches = matchFeaturePoints(I1_l, I1_r, I2_l, I2_r, pts1_l, pts2_l, pts1_r, pts2_r, dims, vo_params.matcher);
+[matches, stereo_matches_2] = matchFeaturePoints(I1_l, I1_r, I2_l, I2_r, ...
+    pts1_l, pts2_l, pts1_r, pts2_r, dims, vo_params.matcher, vo_previous.stereo_matches);
 time(2) = toc;
 
 %% Feature Selection using bucketing
 tic;
-% bucketed_matches = bucketFeatures(matches, vo_params.bucketing);
+bucketed_matches = matches;%bucketFeatures(matches, vo_params.bucketing);
 time(3) = toc;
 
 %% Rotation (R) and Translation(tr) Estimation by minimizing Reprojection Error
-[R, tr] = updateMotionP3P(matches, P1, P2, dims);
+[R, tr] = updateMotionP3P(bucketed_matches, P1, P2, dims);
 
 %% plotting
 
@@ -70,24 +71,24 @@ fprintf('Time taken for feature selection: %6.4f\n', time(3));
 fprintf('Time taken for motion estimation: %6.4f\n', time(4));
 
 % show features before bucketing
-subplot(2, 2, 1);
-imshow(I2_l);
-hold on;
-m_pts2_l = horzcat(matches(:).pt2_l);
-plotFeatures(m_pts2_l,  '+r', 2, 0)
-% show features after bucketing
-m_pts2_l = horzcat(bucketed_matches(:).pt2_l);
-plotFeatures(m_pts2_l,  '+g', 2, 0)
-title(sprintf('Feature selection using bucketing at frame %d', t))
-
-subplot(2, 2, 3);
-showFlowMatches(I1_l, I2_l, bucketed_matches, '-y', 1, '+', 2);
-% showStereoMatches(I2_l, I2_r, matches, 1, '-y', 1, '+', 2);
-title(sprintf('Flow Matched Features in left camera at frame %d', t));
+% subplot(2, 2, 1);
+% imshow(I2_l);
+% hold on;
+% m_pts2_l = horzcat(bucketed_matches(:).pt2_l);
+% plotFeatures(m_pts2_l,  '+r', 2, 0)
+% % show features after bucketing
+% m_pts2_l = horzcat(bucketed_matches(:).pt2_l);
+% plotFeatures(m_pts2_l,  '+g', 2, 0)
+% title(sprintf('Feature selection using bucketing at frame %d', t))
+% 
+% subplot(2, 2, 3);
+% showFlowMatches(I1_l, I2_l, bucketed_matches, '-y', 1, '+', 2);
+% % showStereoMatches(I2_l, I2_r, matches, 1, '-y', 1, '+', 2);
+% title(sprintf('Flow Matched Features in left camera at frame %d', t));
 
 %% Preparation for next iteration
 % allocate features detected in current frames as previous
 vo_previous_updated.pts1_l = pts2_l;
 vo_previous_updated.pts1_r = pts2_r;
-
+vo_previous_updated.stereo_matches = stereo_matches_2;
 end
