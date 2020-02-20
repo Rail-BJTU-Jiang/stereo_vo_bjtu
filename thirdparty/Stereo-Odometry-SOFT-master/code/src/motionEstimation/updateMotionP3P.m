@@ -1,4 +1,4 @@
-function [R, tr] = updateMotionP3P(matches, P1, P2, dims)
+function [R, tr, inlierIdx] = updateMotionP3P(matches, P1, P2, dims)
 %UPDATEMOTION Given matched points in the left and right frames of the
 % stereo system along with the projection matrices for each camera,
 % estimate the incremental camera motion using P3P algorithm with RANSAC
@@ -23,11 +23,14 @@ im_pts2_l = [location2_l(:, 2), location2_l(:, 1)];
 
 % 3D Point Cloud generation at time t-1 using triangulation
 points3D_1 = triangulate(im_pts1_l, im_pts1_r, P1', P2')';
-
+%% filter out too far away points
+ind = points3D_1(3,:) < 300;
+points3D_1 = points3D_1(:,ind);
+im_pts2_l = im_pts2_l(ind,:);
 % invert x-y corrdinates for image processing tooblox
 
 % motion estimation by minimizing reprojection error and RANSAC
 cam1 = cameraIntrinsics([P1(1, 1), P1(2,2)], [P1(1, 3), P1(2, 3)], dims);
-[R, tr] = estimateWorldCameraPose(im_pts2_l, points3D_1', cam1, 'MaxReprojectionError', 1.0);
+[R, tr, inlierIdx] = estimateWorldCameraPose(im_pts2_l, points3D_1', cam1, 'MaxReprojectionError', 1.0);
 
 end
