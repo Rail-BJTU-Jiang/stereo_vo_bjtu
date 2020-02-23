@@ -31,6 +31,12 @@ function varargout = track_match(I1_l, I2_l, I1_r, I2_r, pts1_l, pts1_r, ...
                      'pt1_r',{pts1_r.location(matches_1_lr(indleft,2),:)},...
                      'pt2_l',{pts2_l.location(matches_1_lr(indleft,1),:)},...
                      'pt2_r',{pts2_r.location(matches_3_lr(matches_1_lr(indleft,1),2),:)});
+                 
+    matches.pt1_l = cv.cornerSubPix(I1_l, matches.pt1_l);
+    matches.pt1_r = cv.cornerSubPix(I1_r, matches.pt1_r);
+    matches.pt2_l = cv.cornerSubPix(I2_l, matches.pt2_l);
+    matches.pt2_r = cv.cornerSubPix(I2_r, matches.pt2_r);
+
     
     fprintf('Matches: %i\t', length(matches.pt1_l));
     
