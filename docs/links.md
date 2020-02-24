@@ -7,11 +7,12 @@ https://github.com/Mayankm96/Stereo-Odometry-SOFT
 2. ~~speed-up feature macthing by using tracking;~~: approx. 200 ms per frame. but problem may happen that the updated motion are pretty small.
 3. ~~move bucketing to feature detection;~~
 4. add key frame;
-5. more improvement;
 6. ~~add sub-pixel refinement using parabolic fitting~~
 7. add feature selection based on feature tracking i.e. the age of features
 8. implement Nister's algorithm and SLERP for rotation estimation
-9. use Gauss-Newton optimization to estimate translation from weighted reprojection error
+9. use Gauss-Newton optimization to estimate translation from weighted reprojection error.
+10. more improvement;
+
 
 ## results on kitti
 1. 00 pretty well;
@@ -29,12 +30,14 @@ https://github.com/Mayankm96/Stereo-Odometry-SOFT
 4. https://github.com/mattboler/Structureless-Visual-Odometry: gtsam的matlab使用教程。他本身的VO不怎么样。
 5. https://github.com/PyojinKim/OPVO
 
+---
 
 ### nouse
 1. ~~https://github.com/ritwikbera/SOFT_Visual_Odometry~~: pretty slow 7s-8s per frame. code quality is just so so. 
 2. ~~https://github.com/avisingh599/vo-howard08~~: pretty slow, 3D-3D motion estimation, use clique to remove outliers. Johannes's work is based on this code.
+3. ~~https://github.com/alexkreimer/odometry~~: 方法靠谱，通过算两个H来分别计算R和t，但是代码及其乱且没有注释。投稿BMVC并没有中。不过有一个生成latex table的工具还可以。还有一个python批量跑MATLAB的脚本。
 
-
+---
 
 ### MSCKF (next key work)
 1. https://github.com/foreversuiyi/SlidingWindowOptimization: toronto 那里有MSCKF版本。
