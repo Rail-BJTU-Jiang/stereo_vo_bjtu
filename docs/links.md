@@ -1,6 +1,6 @@
 # reference github links
 
-https://github.com/Mayankm96/Stereo-Odometry-SOFT
+~~https://github.com/Mayankm96/Stereo-Odometry-SOFT~~
 
 ## vo-todo
 1. ~~speed-up feature detection: the bottle-neck should be the non-maxima suppression;~~
@@ -25,7 +25,7 @@ https://github.com/Mayankm96/Stereo-Odometry-SOFT
 
 
 ## vo-ref-github
-1. https://github.com/wzygzlm?tab=repositories: pal_segmentation using template image and histogram.
+1. ~~https://github.com/wzygzlm?tab=repositories: pal_segmentation using template image and histogram.~~ ：效果不是很好，而且template matching的部分尤其不好。
 3. https://github.com/SimonsRoad/PL_MVO_IROS17: li haoang IROS 2017 code.
 4. https://github.com/mattboler/Structureless-Visual-Odometry: gtsam的matlab使用教程。他本身的VO不怎么样。
 5. https://github.com/PyojinKim/OPVO
