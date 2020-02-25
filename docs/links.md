@@ -44,28 +44,6 @@
 2. https://github.com/isamabdullah88/Visual-Inertial-Odometry：对比此版本和toronto那边的版本。
 3. https://github.com/mramezani64/Stereo-Visual-Inertial-Odometry： stereo MSCKF.
 
-## forend object segmentation and tracking
-1. ~~https://github.com/wzygzlm?tab=repositories: pal_segmentation using template image and histogram.~~ ：效果不是很好，而且template matching的部分尤其不好。
-
-**maryland**
-2. ~~https://github.com/anirudhtopiwala/ENPM-673-Perception-for-Autonomous-Robots~~: code quality is poor, only the gmm part maybe useful. but now i know how to use gmmdist.
-3. ~~https://github.com/sudrag/Perception-and-Computer-Vision-in-MATLAB~~: 和2都是Maryland的课程作业，不过code quality is better.
-4. https://github.com/StevieG47/Matlab-ComputerVision: 和2-3一样，Maryland vision课程作业。
-
-maryland这里关注3个点：
-1. GMM
-2. KLT
-3. MSER
-
-GMM需要训练数据：
-1. 用whycon source code做detection，然后把结果保存下来，保存结果为，detect的bb box位置和尺寸。
-2. gmm目前来看适用于单纯的颜色分割，是pixel level的图像分割。
-
-Template matching and tracking:
-[lagadic / camera_localization](https://github.com/lagadic/camera_localization)
-
-
-
 ### scramuzza's course on vision for mobile robots (monocular vo) try this
 2. ~~https://github.com/simon-schaefer/vodom~~： code quality is good, but monocular and slow. nice thing is that it includes a re-initialization.
 3. ~~https://github.com/aroumie1997/visual-odometry-project~~: code quality is ok. 
