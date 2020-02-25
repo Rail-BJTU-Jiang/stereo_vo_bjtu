@@ -21,11 +21,11 @@
 5. 04 not so good; should be the motion estimation problem.
 6. 06 ok;
 7. 07 ok;
-8. 10 ok
+8. 10 ok;
 
+---
 
 ## vo-ref-github
-1. ~~https://github.com/wzygzlm?tab=repositories: pal_segmentation using template image and histogram.~~ ：效果不是很好，而且template matching的部分尤其不好。
 3. https://github.com/SimonsRoad/PL_MVO_IROS17: li haoang IROS 2017 code.
 4. https://github.com/mattboler/Structureless-Visual-Odometry: gtsam的matlab使用教程。他本身的VO不怎么样。
 5. https://github.com/PyojinKim/OPVO
@@ -44,6 +44,8 @@
 2. https://github.com/isamabdullah88/Visual-Inertial-Odometry：对比此版本和toronto那边的版本。
 3. https://github.com/mramezani64/Stereo-Visual-Inertial-Odometry： stereo MSCKF.
 
+## forend object segmentation and tracking
+1. ~~https://github.com/wzygzlm?tab=repositories: pal_segmentation using template image and histogram.~~ ：效果不是很好，而且template matching的部分尤其不好。
 
 **maryland**
 2. ~~https://github.com/anirudhtopiwala/ENPM-673-Perception-for-Autonomous-Robots~~: code quality is poor, only the gmm part maybe useful. but now i know how to use gmmdist.
@@ -54,6 +56,15 @@ maryland这里关注3个点：
 1. GMM
 2. KLT
 3. MSER
+
+GMM需要训练数据：
+1. 用whycon source code做detection，然后把结果保存下来，保存结果为，detect的bb box位置和尺寸。
+2. gmm目前来看适用于单纯的颜色分割，是pixel level的图像分割。
+
+Template matching and tracking:
+[lagadic / camera_localization](https://github.com/lagadic/camera_localization)
+
+
 
 ### scramuzza's course on vision for mobile robots (monocular vo) try this
 2. ~~https://github.com/simon-schaefer/vodom~~： code quality is good, but monocular and slow. nice thing is that it includes a re-initialization.
