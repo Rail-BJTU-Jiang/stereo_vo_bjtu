@@ -35,7 +35,7 @@
 ### nouse
 1. ~~https://github.com/ritwikbera/SOFT_Visual_Odometry~~: pretty slow 7s-8s per frame. code quality is just so so. 
 2. ~~https://github.com/avisingh599/vo-howard08~~: pretty slow, 3D-3D motion estimation, use clique to remove outliers. Johannes's work is based on this code.
-3. ~~https://github.com/alexkreimer/odometry~~: 方法靠谱，通过算两个H来分别计算R和t，但是代码及其乱且没有注释。投稿BMVC并没有中。不过有一个生成latex table的工具还可以。还有一个python批量跑MATLAB的脚本。
+3. ~~https://github.com/alexkreimer/odometry~~: 方法靠谱，通过算两个H来分别计算R和t，但是代码及其乱且没有注释。投稿BMVC并没有中。**不过有一个生成latex table的工具还可以。还有一个python批量跑MATLAB的脚本。**
 
 ---
 
@@ -44,7 +44,7 @@
 2. https://github.com/isamabdullah88/Visual-Inertial-Odometry：对比此版本和toronto那边的版本。
 3. https://github.com/mramezani64/Stereo-Visual-Inertial-Odometry： stereo MSCKF.
 
-## forend object segmentation and tracking
+## fore-end object segmentation and tracking
 1. ~~https://github.com/wzygzlm?tab=repositories: pal_segmentation using template image and histogram.~~ ：效果不是很好，而且template matching的部分尤其不好。
 
 **maryland**
