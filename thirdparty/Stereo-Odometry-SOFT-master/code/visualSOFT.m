@@ -61,7 +61,8 @@ fprintf('Time taken for motion estimation: %6.4f\n', time(4));
 
 % show features before bucketing
 subplot(2, 2, 1);
-imshow(I2_l);
+cla reset
+imagesc(cat(3,I2_l,I2_l,I2_l))
 hold on;
 % m_pts2_l = horzcat(bucketed_matches(:).pt2_l);
 % plotFeatures(m_pts2_l,  '+r', 1, 0)
