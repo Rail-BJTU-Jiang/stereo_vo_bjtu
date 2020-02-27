@@ -1,4 +1,8 @@
-# stereo_vo
+# runtime
+
+current runtime is around 300ms including plotting. My objective is to inprove this to around 100ms.
+
+# perhaps the fastest stereo_vo
 
 visual odometry test code. Not yet finished.
 
