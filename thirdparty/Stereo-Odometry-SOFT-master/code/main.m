@@ -36,6 +36,12 @@ end
 pos = [0;0;0];
 Rpos = eye(3);
 
+% vids = dir('../../*.avi');
+% vidObj = VideoWriter(['../../res',num2str(numel(vids)+1),'.avi']);
+% open(vidObj);
+figure('Name','vo', 'NumberTitle','off', 'Menubar','none', ...
+                        'Pointer','cross', 'Resize','on', 'Position',[100 100 800 600]);
+
 %% Start Algorithm
 start = 0;
 for t = 1 : num_of_images-1
@@ -105,4 +111,11 @@ for t = 1 : num_of_images-1
 
     %% Pause to visualize the plot
     drawnow;
+%     fm(t) = getframe;
 end
+
+% for i = 1:numel(fm)
+%     fprintf('%d\n',i);
+%     writeVideo(vidObj,fm);
+% end
+% close(vidObj);

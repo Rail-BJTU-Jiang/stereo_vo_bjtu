@@ -60,21 +60,46 @@ fprintf('Time taken for feature selection: %6.4f\n', time(3));
 fprintf('Time taken for motion estimation: %6.4f\n', time(4));
 
 % show features before bucketing
-subplot(2, 2, 1);
-cla reset
-imagesc(cat(3,I2_l,I2_l,I2_l))
-hold on;
+% subplot(2, 2, 1);
+% % cla reset
+% imagesc(cat(3,I2_l,I2_l,I2_l))
+% hold on;
+% % m_pts2_l = horzcat(bucketed_matches(:).pt2_l);
+% % plotFeatures(m_pts2_l,  '+r', 1, 0)
+% % show features after bucketing
 % m_pts2_l = horzcat(bucketed_matches(:).pt2_l);
-% plotFeatures(m_pts2_l,  '+r', 1, 0)
-% show features after bucketing
-m_pts2_l = horzcat(bucketed_matches(:).pt2_l);
-plotFeatures(m_pts2_l,  '+g', 1, 0)
-title(sprintf('Feature selection using bucketing at frame %d', t))
-% 
+% plotFeatures(m_pts2_l,  '.g', 1, 0)
+% title(sprintf('matched features at frame %d', t))
+% hold off
+% % 
 % subplot(2, 2, 3);
-% showFlowMatches(I1_l, I2_l, bucketed_matches, '-y', 1, '+', 2);
-% % showStereoMatches(I2_l, I2_r, matches, 1, '-y', 1, '+', 2);
-% title(sprintf('Flow Matched Features in left camera at frame %d', t));
+% cla reset
+% imagesc(cat(3,I2_l,I2_l,I2_l));hold on;
+% m_pts2_l = horzcat(bucketed_matches.pt1_l(inlierIdx,:));
+% m_pts2_2 = horzcat(bucketed_matches.pt2_l(inlierIdx,:));
+% % for all matches
+% x_from = zeros(1, size(matches, 2));
+% x_to = zeros(1, size(matches, 2));
+% y_from = zeros(1, size(matches, 2));
+% y_to = zeros(1, size(matches, 2));
+% num = 0;
+% for kk = 1:size(m_pts2_l,1)
+%     num = num + 1;
+%     x_from(num) = m_pts2_l(kk,1);
+%     x_to(num)   = m_pts2_2(kk,1);
+%     y_from(num) = m_pts2_l(kk,2);
+%     y_to(num)   = m_pts2_2(kk,2);
+% end
+% % plot line
+% plot([y_from; y_to], [x_from; x_to], '-g', 'Linewidth', 1);
+% % plot end points
+% scatter(y_from, x_from, '.', 'r', 'Linewidth', 2);
+% scatter(y_to, x_to, '.', 'b', 'Linewidth', 2);
+% % plotFeatures(m_pts2_l,  '+g', 1, 0);hold on;
+% % plotFeatures(m_pts2_2,  '+r', 1, 0)
+% % showFlowMatches(I1_l, I2_l, bucketed_matches, '-y', 1, '+', 2);
+% % % showStereoMatches(I2_l, I2_r, matches, 1, '-y', 1, '+', 2);
+% title(sprintf('inlier features in left camera at frame %d', t));
 
 %% Preparation for next iteration
 % allocate features detected in current frames as previous
